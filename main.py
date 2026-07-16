@@ -14,6 +14,8 @@ import json
 
 tareas = []
 
+PRIORIDAD_LABEL = {1: "Alta", 2: "Media", 3: "Baja"}
+
 def guardar_tareas():
     with open("tareas.json", "w", encoding="utf-8") as archivo:
         json.dump(tareas, archivo, indent=4, ensure_ascii=False)
@@ -25,15 +27,20 @@ def cargar_tareas():
             tareas = json.load(archivo)
     except FileNotFoundError:
         tareas = []
+    for tarea in tareas:
+        if "prioridad" not in tarea:
+            tarea["prioridad"] = 2
 
 def mostrar_tareas():
     if not tareas:
         print("No hay tareas en la lista.")
         return
 
-    print("Lista de tareas:")
+    print("\nLista de Tareas:")
     for i, tarea in enumerate(tareas, start=1):
-        print(f"{i}. {tarea['nombre']} - {'Completada' if tarea['completada'] else 'Pendiente'}")
+        estado = "Completada" if tarea["completada"] else "Pendiente"
+        prioridad_label = PRIORIDAD_LABEL.get(tarea.get("prioridad", 2), "Media")
+        print(f"{i}. {tarea['nombre']} - {estado} - Prioridad: {prioridad_label}")
 
 def agregar_tarea():
     while True:
@@ -53,7 +60,19 @@ def agregar_tarea():
             print("Esta tarea ya existe en la lista. Inténtelo de nuevo.")
             continue
 
-        tarea = {"nombre": nombre,"completada": False}
+        
+        while True:
+            print("Seleccione prioridad: 1=Alta, 2=Media, 3=Baja")
+            try:
+                prioridad = int(input("Prioridad (1-3) [2]: ").strip() or 2)
+                if prioridad not in (1, 2, 3):
+                    print("Prioridad inválida. Elija 1, 2 o 3.")
+                    continue
+                break
+            except ValueError:
+                print("Por favor, introduzca un número válido para la prioridad.")
+
+        tarea = {"nombre": nombre, "completada": False, "prioridad": prioridad}
 
         tareas.append(tarea)
         guardar_tareas()
@@ -92,13 +111,27 @@ def editar_tarea():
         try:
             indice = int(input("Introduzca el número de la tarea que desea editar: ")) - 1
             if 0 <= indice < len(tareas):
-                nueva_tarea = input("Introduzca el nuevo nombre de la tarea: ").strip()
-                if nueva_tarea == "":
-                    print("El nombre de la tarea no puede estar vacío. Inténtelo de nuevo.")
-                    continue
-                tareas[indice]["nombre"] = nueva_tarea
+                nueva_tarea = input("Introduzca el nuevo nombre de la tarea (enter para no cambiar): ").strip()
+                if nueva_tarea != "":
+                    tareas[indice]["nombre"] = nueva_tarea
+
+                # Editar prioridad
+                while True:
+                    prioridad_input = input(f"Prioridad actual {PRIORIDAD_LABEL.get(tareas[indice].get('prioridad',2))}. Nueva prioridad 1=Alta,2=Media,3=Baja (enter para no cambiar): ").strip()
+                    if prioridad_input == "":
+                        break
+                    try:
+                        prioridad_val = int(prioridad_input)
+                        if prioridad_val not in (1,2,3):
+                            print("Prioridad inválida. Elija 1, 2 o 3.")
+                            continue
+                        tareas[indice]["prioridad"] = prioridad_val
+                        break
+                    except ValueError:
+                        print("Por favor, introduzca un número válido para la prioridad.")
+
                 guardar_tareas()
-                print(f"Tarea actualizada a '{nueva_tarea}'.")
+                print(f"Tarea actualizada a '{tareas[indice]['nombre']}'.")
                 break
             else:
                 print("Número de tarea inválido. Inténtelo de nuevo.")
@@ -125,6 +158,19 @@ def marcar_como_completada():
         except ValueError:
             print("Por favor, introduzca un número válido.")
 
+def mostrar_tareas_ordenadas_por_prioridad():
+    if not tareas:
+        print("No hay tareas en la lista.")
+        return
+
+    # Ordenar por prioridad ascendente (1=Alta) y luego por completada
+    tareas_ordenadas = sorted(tareas, key=lambda t: (t.get('prioridad', 2), t.get('completada', False)))
+    print("\nLista de Tareas (ordenadas por prioridad):")
+    for i, tarea in enumerate(tareas_ordenadas, start=1):
+        estado = "Completada" if tarea["completada"] else "Pendiente"
+        prioridad_label = PRIORIDAD_LABEL.get(tarea.get("prioridad", 2), "Media")
+        print(f"{i}. {tarea['nombre']} - {estado} - Prioridad: {prioridad_label}")
+
 cargar_tareas()
 
 while True:
@@ -135,6 +181,7 @@ while True:
     print("4. Editar tarea")
     print("5. Marcar tarea como completada")
     print("6. Salir")
+    print("7. Mostrar tareas ordenadas por prioridad")
 
     opcion = input("Seleccione una opción (1-6): ").strip()
 
@@ -151,5 +198,7 @@ while True:
     elif opcion == "6":
         print("Saliendo del programa.")
         break
+    elif opcion == "7":
+        mostrar_tareas_ordenadas_por_prioridad()
     else:
         print("Opción inválida. Inténtelo de nuevo.")

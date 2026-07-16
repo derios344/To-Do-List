@@ -32,49 +32,61 @@ Cada tarea se almacena con la siguiente información:
     "prioridad": "Alta",
     "completada": false
 }
+```
 
 ## Instalación
 
 Clonar el repositorio:
 
- git clone git@github.com:derios344/To-Do-List.git
+```bash
+git clone git@github.com:derios344/To-Do-List.git
+```
 
- Entrar en la carpeta del proyecto:
+Entrar en la carpeta del proyecto:
 
- cd To-Do-List
+```bash
+cd To-Do-List
+```
 
-##Ejecutar el programa:
+## Ejecutar el programa
 
+```bash
 python main.py
+```
 
-##Uso
+## Uso
 
 Al iniciar el programa aparecerá un menú con las siguientes opciones:
 
+```text
 1. Mostrar tareas
 2. Agregar tarea
 3. Eliminar tarea
 4. Editar tarea
 5. Marcar tarea como completada
 6. Salir
+```
 
 Las tareas se guardan automáticamente en el archivo:
 
+```text
 tareas.json
+```
 
 por lo que los datos permanecen aunque el programa se cierre.
 
-Próximas mejoras
--Agregar descripción a las tareas.
--Agregar fechas límite.
--Crear filtros de búsqueda.
--Ordenar tareas por prioridad.
--Separar el proyecto en múltiples módulos.
--Implementar programación orientada a objetos.
--Migrar almacenamiento de JSON a SQLite.
--Crear una interfaz gráfica.
+## Próximas mejoras
 
-#Autor
+- Agregar descripción a las tareas.
+- Agregar fechas límite.
+- Crear filtros de búsqueda.
+- Ordenar tareas por prioridad.
+- Separar el proyecto en múltiples módulos.
+- Implementar programación orientada a objetos.
+- Migrar almacenamiento de JSON a SQLite.
+- Crear una interfaz gráfica.
+
+## Autor
 
 D3R1OS
 

@@ -30,6 +30,8 @@ def cargar_tareas():
     for tarea in tareas:
         if "prioridad" not in tarea:
             tarea["prioridad"] = 2
+        if "descripcion" not in tarea:
+            tarea["descripcion"] = ""
 
 def mostrar_tareas():
     if not tareas:
@@ -41,6 +43,9 @@ def mostrar_tareas():
         estado = "Completada" if tarea["completada"] else "Pendiente"
         prioridad_label = PRIORIDAD_LABEL.get(tarea.get("prioridad", 2), "Media")
         print(f"{i}. {tarea['nombre']} - {estado} - Prioridad: {prioridad_label}")
+        descripcion = tarea.get("descripcion", "").strip()
+        if descripcion:
+            print(f"    Descripción: {descripcion}")
 
 def agregar_tarea():
     while True:
@@ -72,7 +77,9 @@ def agregar_tarea():
             except ValueError:
                 print("Por favor, introduzca un número válido para la prioridad.")
 
-        tarea = {"nombre": nombre, "completada": False, "prioridad": prioridad}
+        descripcion = input("Introduzca una descripción (opcional): ").strip()
+
+        tarea = {"nombre": nombre, "completada": False, "prioridad": prioridad, "descripcion": descripcion}
 
         tareas.append(tarea)
         guardar_tareas()
@@ -129,6 +136,11 @@ def editar_tarea():
                         break
                     except ValueError:
                         print("Por favor, introduzca un número válido para la prioridad.")
+
+                # Editar descripción
+                descripcion_input = input(f"Descripción actual: {tareas[indice].get('descripcion','')}\nNueva descripción (enter para no cambiar): ").strip()
+                if descripcion_input != "":
+                    tareas[indice]["descripcion"] = descripcion_input
 
                 guardar_tareas()
                 print(f"Tarea actualizada a '{tareas[indice]['nombre']}'.")

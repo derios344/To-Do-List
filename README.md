@@ -16,6 +16,10 @@ El programa permite crear, modificar, eliminar y organizar tareas, guardando la 
 - Agregar descripciones detalladas a las tareas.
 - Editar descripciones de tareas.
 - Visualización mejorada de descripciones largas.
+- Agregar fechas límite a las tareas.
+- Validación de fechas (no permite fechas del pasado).
+- Mostrar tareas ordenadas por fecha límite más cercana.
+- Editar fechas límite de tareas existentes.
 - Evitar tareas duplicadas.
 - Guardado automático de datos.
 - Carga de datos al iniciar el programa.
@@ -25,6 +29,7 @@ El programa permite crear, modificar, eliminar y organizar tareas, guardando la 
 
 - Python 3.
 - JSON para almacenamiento de datos.
+- Librería `datetime` para manejo de fechas y validación.
 
 ## Estructura de una tarea
 
@@ -35,7 +40,8 @@ Cada tarea se almacena con la siguiente información:
     "nombre": "Estudiar Python",
     "prioridad": 1,
     "completada": false,
-    "descripcion": "Estudiar capítulos 1-5 del curso online"
+    "descripcion": "Estudiar capítulos 1-5 del curso online",
+    "fecha_limite": "30-07-2026"
 }
 ```
 
@@ -44,6 +50,7 @@ Donde:
 - **prioridad**: 1=Alta, 2=Media, 3=Baja.
 - **completada**: true si está hecha, false si está pendiente.
 - **descripcion**: Detalles adicionales (opcional).
+- **fecha_limite**: Fecha de vencimiento en formato DD-MM-YYYY (opcional).
 
 ## Instalación
 
@@ -75,9 +82,25 @@ Al iniciar el programa aparecerá un menú con las siguientes opciones:
 3. Eliminar tarea
 4. Editar tarea
 5. Marcar tarea como completada
-6.Mostrar la lista por orden de prioridad
-7. Salir
+6. Mostrar tareas ordenadas por prioridad
+7. Mostrar tareas ordenadas por fecha límite
+8. Salir
 ```
+
+### Agregar tarea con fecha límite
+
+Cuando agregas una tarea, el programa te pide:
+```
+Introduzca el nombre de la tarea: Comprar pan
+Prioridad (1-3) [2]: 1
+Introduzca una descripción (opcional): Pan integral para el desayuno
+Introduzca fecha límite (DD-MM-YYYY) o dejar vacío: 25-07-2026
+```
+
+La fecha límite:
+- Es **opcional** (puedes dejar vacío presionando Enter)
+- Debe estar en formato **DD-MM-YYYY** (ejemplo: 25-07-2026)
+- **No puede ser del pasado** (el programa valida automáticamente)
 
 Las tareas se guardan automáticamente en el archivo:
 
@@ -89,8 +112,6 @@ por lo que los datos permanecen aunque el programa se cierre.
 
 ## Próximas mejoras
 
-- Agregar fechas límite.
-- Crear filtros de búsqueda.
 - Separar el proyecto en múltiples módulos.
 - Implementar programación orientada a objetos.
 - Migrar almacenamiento de JSON a SQLite.

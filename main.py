@@ -11,6 +11,7 @@ Los datos se almacenan de forma permanente en un archivo JSON
 """
 
 import json
+from datetime import datetime
 
 tareas = []
 
@@ -32,6 +33,8 @@ def cargar_tareas():
             tarea["prioridad"] = 2
         if "descripcion" not in tarea:
             tarea["descripcion"] = ""
+        if "fecha_limite" not in tarea:
+            tarea["fecha_limite"] = ""
 
 def mostrar_tareas():
     if not tareas:
@@ -44,6 +47,10 @@ def mostrar_tareas():
         prioridad_label = PRIORIDAD_LABEL.get(tarea.get("prioridad", 2), "Media")
         print(f"{i}. {tarea['nombre']} - {estado} - Prioridad: {prioridad_label}")
         
+        fecha_limite = tarea.get("fecha_limite", "").strip()
+        if fecha_limite:
+            print(f"    Fecha límite: {fecha_limite}")
+        
         descripcion = tarea.get("descripcion", "").strip()
         if descripcion:
             print("    " + "-" * 50)
@@ -51,6 +58,16 @@ def mostrar_tareas():
             print("    " + "-" * 50)
         
         print()
+
+def validar_fecha(fecha_texto):
+    try:
+        fecha_obj = datetime.strptime(fecha_texto, "%d-%m-%Y")
+        fecha_hoy = datetime.now()
+        if fecha_obj < fecha_hoy:
+            return False, "La fecha no puede ser del pasado."
+        return True, ""
+    except ValueError:
+        return False, "Formato inválido. Use DD-MM-YYYY"
 
 def agregar_tarea():
     while True:
@@ -84,7 +101,19 @@ def agregar_tarea():
 
         descripcion = input("Introduzca una descripción (opcional): ").strip()
 
-        tarea = {"nombre": nombre, "completada": False, "prioridad": prioridad, "descripcion": descripcion}
+        fecha_limite = ""
+        while True:
+            fecha_input = input("Introduzca fecha límite (DD-MM-YYYY) o dejar vacío: ").strip()
+            if fecha_input == "":
+                break
+            valida, mensaje = validar_fecha(fecha_input)
+            if valida:
+                fecha_limite = fecha_input
+                break
+            else:
+                print(mensaje)
+
+        tarea = {"nombre": nombre, "completada": False, "prioridad": prioridad, "descripcion": descripcion, "fecha_limite": fecha_limite}
 
         tareas.append(tarea)
         guardar_tareas()
@@ -147,6 +176,19 @@ def editar_tarea():
                 if descripcion_input != "":
                     tareas[indice]["descripcion"] = descripcion_input
 
+                # Editar fecha límite
+                while True:
+                    fecha_actual = tareas[indice].get("fecha_limite", "")
+                    fecha_input = input(f"Fecha límite actual: {fecha_actual}\nNueva fecha (DD-MM-YYYY) o dejar vacío (enter para no cambiar): ").strip()
+                    if fecha_input == "":
+                        break
+                    valida, mensaje = validar_fecha(fecha_input)
+                    if valida:
+                        tareas[indice]["fecha_limite"] = fecha_input
+                        break
+                    else:
+                        print(mensaje)
+
                 guardar_tareas()
                 print(f"Tarea actualizada a '{tareas[indice]['nombre']}'.")
                 break
@@ -188,6 +230,10 @@ def mostrar_tareas_ordenadas_por_prioridad():
         prioridad_label = PRIORIDAD_LABEL.get(tarea.get("prioridad", 2), "Media")
         print(f"{i}. {tarea['nombre']} - {estado} - Prioridad: {prioridad_label}")
         
+        fecha_limite = tarea.get("fecha_limite", "").strip()
+        if fecha_limite:
+            print(f"    Fecha límite: {fecha_limite}")
+        
         descripcion = tarea.get("descripcion", "").strip()
         if descripcion:
             print("    " + "-" * 50)
@@ -195,6 +241,62 @@ def mostrar_tareas_ordenadas_por_prioridad():
             print("    " + "-" * 50)
         
         print()
+
+def mostrar_tareas_por_fecha():
+    if not tareas:
+        print("No hay tareas en la lista.")
+        return
+
+    # Crear lista de tareas con fecha límite
+    tareas_con_fecha = []
+    tareas_sin_fecha = []
+    
+    for tarea in tareas:
+        if tarea.get("fecha_limite", "").strip():
+            tareas_con_fecha.append(tarea)
+        else:
+            tareas_sin_fecha.append(tarea)
+    
+    # Ordenar por fecha más cercana
+    def convertir_fecha(tarea):
+        fecha_texto = tarea.get("fecha_limite", "")
+        return datetime.strptime(fecha_texto, "%d-%m-%Y")
+    
+    tareas_con_fecha.sort(key=convertir_fecha)
+    
+    print("\nLista de Tareas (ordenadas por fecha límite más cercana):")
+    
+    # Mostrar tareas con fecha
+    for i, tarea in enumerate(tareas_con_fecha, start=1):
+        estado = "Completada" if tarea["completada"] else "Pendiente"
+        prioridad_label = PRIORIDAD_LABEL.get(tarea.get("prioridad", 2), "Media")
+        fecha_limite = tarea.get("fecha_limite", "")
+        print(f"{i}. {tarea['nombre']} - {estado} - Prioridad: {prioridad_label}")
+        print(f"    Fecha límite: {fecha_limite}")
+        
+        descripcion = tarea.get("descripcion", "").strip()
+        if descripcion:
+            print("    " + "-" * 50)
+            print(f"    Descripción: {descripcion}")
+            print("    " + "-" * 50)
+        
+        print()
+    
+    # Mostrar tareas sin fecha
+    if tareas_sin_fecha:
+        print("Tareas sin fecha límite:")
+        for i, tarea in enumerate(tareas_sin_fecha, start=1):
+            estado = "Completada" if tarea["completada"] else "Pendiente"
+            prioridad_label = PRIORIDAD_LABEL.get(tarea.get("prioridad", 2), "Media")
+            print(f"{i}. {tarea['nombre']} - {estado} - Prioridad: {prioridad_label}")
+            
+            descripcion = tarea.get("descripcion", "").strip()
+            if descripcion:
+                print("    " + "-" * 50)
+                print(f"    Descripción: {descripcion}")
+                print("    " + "-" * 50)
+            
+            print()
 
 cargar_tareas()
 
@@ -206,9 +308,10 @@ while True:
     print("4. Editar tarea")
     print("5. Marcar tarea como completada")
     print("6. Mostrar tareas ordenadas por prioridad")
-    print("7. Salir")
+    print("7. Mostrar tareas ordenadas por fecha límite")
+    print("8. Salir")
 
-    opcion = input("Seleccione una opción (1-6): ").strip()
+    opcion = input("Seleccione una opción (1-8): ").strip()
 
     if opcion == "1":
         mostrar_tareas()
@@ -223,6 +326,8 @@ while True:
     elif opcion == "6":
         mostrar_tareas_ordenadas_por_prioridad()
     elif opcion == "7":
+        mostrar_tareas_por_fecha()
+    elif opcion == "8":
         print("Saliendo del programa.")
         break
     else:

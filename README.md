@@ -50,7 +50,7 @@ Donde:
 Clonar el repositorio:
 
 ```bash
-git clone git@github.com:derios344/To-Do-List.git
+ggit clone https://github.com/derios344/To-Do-List.git
 ```
 
 Entrar en la carpeta del proyecto:

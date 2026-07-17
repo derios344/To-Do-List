@@ -192,8 +192,8 @@ while True:
     print("3. Eliminar tarea")
     print("4. Editar tarea")
     print("5. Marcar tarea como completada")
-    print("6. Salir")
-    print("7. Mostrar tareas ordenadas por prioridad")
+    print("6. Mostrar tareas ordenadas por prioridad")
+    print("7. Salir")
 
     opcion = input("Seleccione una opción (1-6): ").strip()
 
@@ -208,9 +208,9 @@ while True:
     elif opcion == "5":
         marcar_como_completada()
     elif opcion == "6":
+        mostrar_tareas_ordenadas_por_prioridad()
+    elif opcion == "7":
         print("Saliendo del programa.")
         break
-    elif opcion == "7":
-        mostrar_tareas_ordenadas_por_prioridad()
     else:
         print("Opción inválida. Inténtelo de nuevo.")

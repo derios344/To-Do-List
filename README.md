@@ -12,6 +12,7 @@ El programa permite crear, modificar, eliminar y organizar tareas, guardando la 
 - Eliminar tareas.
 - Marcar tareas como completadas.
 - Sistema de prioridades.
+- Mostrar tareas por prioridad
 - Evitar tareas duplicadas.
 - Guardado automático de datos.
 - Carga de datos al iniciar el programa.
@@ -64,7 +65,8 @@ Al iniciar el programa aparecerá un menú con las siguientes opciones:
 3. Eliminar tarea
 4. Editar tarea
 5. Marcar tarea como completada
-6. Salir
+6.Mostrar la lista por orden de prioridad
+7. Salir
 ```
 
 Las tareas se guardan automáticamente en el archivo:
@@ -80,7 +82,6 @@ por lo que los datos permanecen aunque el programa se cierre.
 - Agregar descripción a las tareas.
 - Agregar fechas límite.
 - Crear filtros de búsqueda.
-- Ordenar tareas por prioridad.
 - Separar el proyecto en múltiples módulos.
 - Implementar programación orientada a objetos.
 - Migrar almacenamiento de JSON a SQLite.

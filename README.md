@@ -12,7 +12,10 @@ El programa permite crear, modificar, eliminar y organizar tareas, guardando la 
 - Eliminar tareas.
 - Marcar tareas como completadas.
 - Sistema de prioridades.
-- Mostrar tareas por prioridad
+- Mostrar tareas por prioridad.
+- Agregar descripciones detalladas a las tareas.
+- Editar descripciones de tareas.
+- Visualización mejorada de descripciones largas.
 - Evitar tareas duplicadas.
 - Guardado automático de datos.
 - Carga de datos al iniciar el programa.
@@ -30,10 +33,17 @@ Cada tarea se almacena con la siguiente información:
 ```json
 {
     "nombre": "Estudiar Python",
-    "prioridad": "Alta",
-    "completada": false
+    "prioridad": 1,
+    "completada": false,
+    "descripcion": "Estudiar capítulos 1-5 del curso online"
 }
 ```
+
+Donde:
+- **nombre**: El título de la tarea.
+- **prioridad**: 1=Alta, 2=Media, 3=Baja.
+- **completada**: true si está hecha, false si está pendiente.
+- **descripcion**: Detalles adicionales (opcional).
 
 ## Instalación
 
@@ -79,7 +89,6 @@ por lo que los datos permanecen aunque el programa se cierre.
 
 ## Próximas mejoras
 
-- Agregar descripción a las tareas.
 - Agregar fechas límite.
 - Crear filtros de búsqueda.
 - Separar el proyecto en múltiples módulos.

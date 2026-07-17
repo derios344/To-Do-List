@@ -43,9 +43,14 @@ def mostrar_tareas():
         estado = "Completada" if tarea["completada"] else "Pendiente"
         prioridad_label = PRIORIDAD_LABEL.get(tarea.get("prioridad", 2), "Media")
         print(f"{i}. {tarea['nombre']} - {estado} - Prioridad: {prioridad_label}")
+        
         descripcion = tarea.get("descripcion", "").strip()
         if descripcion:
+            print("    " + "-" * 50)
             print(f"    Descripción: {descripcion}")
+            print("    " + "-" * 50)
+        
+        print()
 
 def agregar_tarea():
     while True:
@@ -182,6 +187,14 @@ def mostrar_tareas_ordenadas_por_prioridad():
         estado = "Completada" if tarea["completada"] else "Pendiente"
         prioridad_label = PRIORIDAD_LABEL.get(tarea.get("prioridad", 2), "Media")
         print(f"{i}. {tarea['nombre']} - {estado} - Prioridad: {prioridad_label}")
+        
+        descripcion = tarea.get("descripcion", "").strip()
+        if descripcion:
+            print("    " + "-" * 50)
+            print(f"    Descripción: {descripcion}")
+            print("    " + "-" * 50)
+        
+        print()
 
 cargar_tareas()
 

@@ -30,10 +30,13 @@ El programa permite crear, modificar, eliminar y organizar tareas, guardando la 
 
 ## Estructura del proyecto
 
-El proyecto está organizado con programación orientada a objetos:
+El proyecto ahora está organizado de forma modular para que sea más claro y fácil de mantener:
 
-- Clase Tarea: representa cada tarea individual.
-- Clase GestorTareas: administra la lógica del programa, almacenamiento y menú.
+- app/models.py: define la clase Tarea y sus propiedades.
+- app/storage.py: gestiona la lectura y escritura de tareas en JSON.
+- app/services.py: contiene la lógica del gestor de tareas.
+- app/console.py: maneja la interacción con el usuario en consola.
+- main.py: es el punto de entrada del programa.
 
 ## Estructura de una tarea
 
@@ -58,15 +61,10 @@ Donde:
 
 ## Instalación
 
-Clonar el repositorio:
+Clona este repositorio o descárgalo en tu máquina y entra a la carpeta del proyecto:
 
 ```bash
-git clone https://github.com/derios344/biblioteca-python.git
-```
-
-Entrar en la carpeta del proyecto:
-
-```bash
+git clone <url-del-repositorio>
 cd To-Do-list
 ```
 
@@ -117,10 +115,10 @@ por lo que los datos permanecen aunque el programa se cierre.
 
 ## Próximas mejoras
 
-- Separar el proyecto en múltiples módulos.
-- Migrar el almacenamiento de JSON a SQLite.
+- Migrar el almacenamiento de JSON a SQLite o una base de datos local.
 - Crear una interfaz gráfica.
 - Añadir más opciones de filtrado y búsqueda.
+- Incorporar pruebas automatizadas.
 
 ## Autor
 

@@ -57,7 +57,7 @@ Donde:
 Clonar el repositorio:
 
 ```bash
-ggit clone https://github.com/derios344/To-Do-List.git
+git clone https://github.com/derios344/biblioteca-python.git
 ```
 
 Entrar en la carpeta del proyecto:

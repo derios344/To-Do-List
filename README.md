@@ -2,7 +2,7 @@
 
 Aplicación de consola desarrollada en Python para administrar una lista de tareas de forma simple y ordenada.
 
-El programa permite crear, modificar, eliminar y organizar tareas, guardando la información de forma persistente en un archivo JSON.
+El programa permite crear, modificar, eliminar y organizar tareas, guardando la información de forma persistente en una base de datos SQLite.
 
 ## Características
 
@@ -25,7 +25,7 @@ El programa permite crear, modificar, eliminar y organizar tareas, guardando la 
 ## Tecnologías utilizadas
 
 - Python 3
-- JSON para almacenamiento persistente
+- SQLite para almacenamiento persistente
 - Librería datetime para manejo y validación de fechas
 
 ## Estructura del proyecto
@@ -33,7 +33,7 @@ El programa permite crear, modificar, eliminar y organizar tareas, guardando la 
 El proyecto ahora está organizado de forma modular para que sea más claro y fácil de mantener:
 
 - app/models.py: define la clase Tarea y sus propiedades.
-- app/storage.py: gestiona la lectura y escritura de tareas en JSON.
+- app/storage.py: gestiona la lectura y escritura de tareas en SQLite.
 - app/services.py: contiene la lógica del gestor de tareas.
 - app/console.py: maneja la interacción con el usuario en consola.
 - main.py: es el punto de entrada del programa.
@@ -105,17 +105,16 @@ La fecha límite:
 - Debe estar en formato DD-MM-YYYY.
 - No puede ser del pasado.
 
-Las tareas se guardan automáticamente en el archivo:
+Las tareas se guardan automáticamente en la base de datos:
 
 ```text
-tareas.json
+tareas.db
 ```
 
 por lo que los datos permanecen aunque el programa se cierre.
 
 ## Próximas mejoras
 
-- Migrar el almacenamiento de JSON a SQLite o una base de datos local.
 - Crear una interfaz gráfica.
 - Añadir más opciones de filtrado y búsqueda.
 - Incorporar pruebas automatizadas.
